@@ -1,5 +1,5 @@
 const express = require('express');
-const app = express();
+const app = new express();
 const port = process.env.PORT || 11000;
 const nav = [
     {
@@ -100,4 +100,4 @@ app.get('/',function(req,res){
 });
 
 
-app.listen(PORT,()=>{console.log("Server Ready at"+port)});
+app.listen(port,()=>{console.log("Server Ready at"+port)});
