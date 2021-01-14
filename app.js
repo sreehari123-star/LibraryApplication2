@@ -100,4 +100,4 @@ app.get('/',function(req,res){
 });
 
 
-app.listen(port,()=>{console.log("Server Ready at"+port)});
+app.listen(port,()=>{console.log("Server Ready at" + port)});
