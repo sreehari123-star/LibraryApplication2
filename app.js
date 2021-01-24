@@ -1,6 +1,6 @@
 const express = require('express');
 const app = new express();
-const port = process.env.PORT || 11000;
+// const port = process.env.PORT || 11000;
 const nav = [
     {
         link:'/books',name:'Books'
@@ -9,23 +9,35 @@ const nav = [
         link:'/authors',name:'Authors'
     },
     {
-        link:'/add',name:'Add Book'
+        link:'/login' ,name:'Login'
     },
     {
-        link:'/signup',name:'Sign Up'
+        link:'/signup' ,name:'Sign up'
     },
     {
-        link:'/login',name:'Log In'
+        link:'/admin'
+    },
+    {
+        link:'/admins'
+    },
+    {
+        link:'/deletebooks' 
+    },
+    {
+        link:'/deleteauthors' 
     }
 ];
 
 
 const booksRouter = require('./src/routes/bookRoutes')(nav)
+const adminRouter = require('./src/routes/adminRoutes')(nav)
 
+app.use(express.urlencoded({extended:true}));
 app.use(express.static('./public'));
 app.set('view engine','ejs');
 app.set('views','./src/views');
 app.use('/books',booksRouter);
+app.use('/admin',adminRouter);
 
 app.get('/',function(req,res){
     res.render("index",
@@ -37,12 +49,15 @@ app.get('/',function(req,res){
 });
 
 
-const authorRouter = require('./src/routes/authorRoutes')(nav)
+const authorsRouter = require('./src/routes/authorRoutes')(nav)
+const adminsRouter = require('./src/routes/adminsRoutes')(nav)
 
+app.use(express.urlencoded({extended:true}));
 app.use(express.static('./public'));
 app.set('view engine','ejs');
 app.set('views','./src/views');
-app.use('/authors',authorRouter);
+app.use('/authors',authorsRouter);
+app.use('/admins',adminsRouter);
 
 app.get('/',function(req,res){
     res.render("index",
@@ -54,20 +69,20 @@ app.get('/',function(req,res){
 });
 
 
-const addRouter = require('./src/routes/addRoutes')(nav)
-app.use(express.static('./public'));
-app.set('view engine','ejs');
-app.set('views','./src/views');
-app.use('/add',addRouter);
+// const addRouter = require('./src/routes/addRoutes')(nav)
+// app.use(express.static('./public'));
+// app.set('view engine','ejs');
+// app.set('views','./src/views');
+// app.use('/admin',addRouter);
 
-app.get('/',function(req,res){
-    res.render("index",
-    {
-        // nav:[{link:'/books',name:'Books'},{link:'/authors',name:'Authors'}],
-        nav,
-        title:'Library'
-    });
-});
+// app.get('/',function(req,res){
+//     res.render("index",
+//     {
+//         // nav:[{link:'/books',name:'Books'},{link:'/authors',name:'Authors'}],
+//         nav,
+//         title:'Library'
+//     });
+// });
 
 const signupRouter = require('./src/routes/signupRoutes')(nav)
 app.use(express.static('./public'));
@@ -100,4 +115,45 @@ app.get('/',function(req,res){
 });
 
 
-app.listen(port,()=>{console.log("Server Ready at" +port)});
+
+const deletebooksRouter = require('./src/routes/deletebookRoutes')(nav)
+const deleteadminRouter = require('./src/routes/deleteadminRoutes')(nav)
+
+app.use(express.urlencoded({extended:true}));
+app.use(express.static('./public'));
+app.set('view engine','ejs');
+app.set('views','./src/views');
+app.use('/deletebook',deletebooksRouter);
+app.use('/deletebooks',deleteadminRouter);
+
+app.get('/',function(req,res){
+    res.render("index",
+    {
+        // nav:[{link:'/books',name:'Books'},{link:'/authors',name:'Authors'}],
+        nav,
+        title:'Library'
+    });
+});
+
+
+const deleteauthorsRouter = require('./src/routes/deleteauthorRoutes')(nav)
+const deleteadminsRouter = require('./src/routes/deleteadminsRoutes')(nav)
+
+app.use(express.urlencoded({extended:true}));
+app.use(express.static('./public'));
+app.set('view engine','ejs');
+app.set('views','./src/views');
+app.use('/deleteauthor',deleteauthorsRouter);
+app.use('/deleteauthors',deleteadminsRouter);
+
+app.get('/',function(req,res){
+    res.render("index",
+    {
+        // nav:[{link:'/books',name:'Books'},{link:'/authors',name:'Authors'}],
+        nav,
+        title:'Library'
+    });
+});
+
+
+app.listen(12000);

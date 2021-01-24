@@ -5,7 +5,7 @@ function router(nav){
         res.render('signup',
         {
             nav,
-            title:'Library App',
+            title:'Library',
         });
     });
     return signupRouter;

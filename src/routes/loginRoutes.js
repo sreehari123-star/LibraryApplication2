@@ -5,7 +5,7 @@ function router(nav){
         res.render('login',
         {
             nav,
-            title:'Library App',
+            title:'Library',
         });
     });
     return loginRouter;
